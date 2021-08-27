@@ -5,7 +5,6 @@ import { Duplex, PassThrough, Stream } from 'stream';
 class StreamFactory implements StreamFactoryInterface {
     public createStream(content: string): Duplex {
         const stream = new PassThrough();
-
         stream.write(content);
 
         return stream;
@@ -14,16 +13,15 @@ class StreamFactory implements StreamFactoryInterface {
     public createStreamFromFile(filename: string): Duplex {
         try {
             accessSync(filename, constants.R_OK);
-
-            return this.createStreamFromResource(createReadStream(filename));
         } catch (err) {
             throw new Error(`File with filename: "${filename}" does not exists or is not readable`);
         }
+
+        return this.createStreamFromResource(createReadStream(filename));
     }
 
     public createStreamFromResource(stream: Stream): Duplex {
         const newStream = new PassThrough();
-
         stream.pipe(newStream);
 
         return newStream;

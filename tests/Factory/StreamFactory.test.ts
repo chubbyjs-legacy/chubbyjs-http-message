@@ -2,7 +2,7 @@ import { describe, expect, test } from '@jest/globals';
 import { randomBytes } from 'crypto';
 import { unlinkSync, writeFileSync } from 'fs';
 import { tmpdir } from 'os';
-import { Stream } from 'stream';
+import { PassThrough, Stream } from 'stream';
 import StreamFactory from '../../src/Factory/StreamFactory';
 
 const readStream = async (stream: Stream) => {
@@ -16,17 +16,13 @@ const readStream = async (stream: Stream) => {
 };
 
 describe('StreamFactory', () => {
-    test('createStream', () => {
+    test('createStream', async () => {
         const streamFactory = new StreamFactory();
 
         const stream = streamFactory.createStream('test');
+        stream.end();
 
-        let data = '';
-        let chunk: string;
-
-        while ((chunk = stream.read())) {
-            data += chunk;
-        }
+        const data = await readStream(stream);
 
         expect(data).toBe('test');
     });
@@ -55,5 +51,19 @@ describe('StreamFactory', () => {
                 streamFactory.createStreamFromFile('/some/unknown/file');
             }).toThrow('File with filename: "/some/unknown/file" does not exists or is not readable');
         });
+    });
+
+    test('createStreamFromResource', async () => {
+        const existingStream = new PassThrough();
+        existingStream.write('test');
+        existingStream.end();
+
+        const streamFactory = new StreamFactory();
+
+        const stream = streamFactory.createStreamFromResource(existingStream);
+
+        const data = await readStream(stream);
+
+        expect(data).toBe('test');
     });
 });
