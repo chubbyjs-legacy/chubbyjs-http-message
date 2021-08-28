@@ -91,7 +91,7 @@ class Response implements ResponseInterface {
         return this.statusCode;
     }
 
-    public withStatus(code: number, reasonPhrase?: string): Response {
+    public withStatus(code: number, reasonPhrase?: string): this {
         const response = this.clone();
         response.statusCode = code;
         response.reasonPhrase = reasonPhrase ?? Response.statusCodeMap.get(code) ?? '';
@@ -107,7 +107,7 @@ class Response implements ResponseInterface {
         return this.message.getProtocolVersion();
     }
 
-    public withProtocolVersion(protocolVersion: string): Response {
+    public withProtocolVersion(protocolVersion: string): this {
         const response = this.clone();
         response.message = this.message.withProtocolVersion(protocolVersion);
 
@@ -130,21 +130,21 @@ class Response implements ResponseInterface {
         return this.message.getHeaderLine(name);
     }
 
-    public withHeader(name: string, value: Array<string> | string): Response {
+    public withHeader(name: string, value: Array<string> | string): this {
         const response = this.clone();
         response.message = this.message.withHeader(name, value);
 
         return response;
     }
 
-    public withAddedHeader(name: string, value: Array<string> | string): Response {
+    public withAddedHeader(name: string, value: Array<string> | string): this {
         const response = this.clone();
         response.message = this.message.withAddedHeader(name, value);
 
         return response;
     }
 
-    public withoutHeader(name: string): Response {
+    public withoutHeader(name: string): this {
         const response = this.clone();
         response.message = this.message.withoutHeader(name);
 
@@ -155,7 +155,7 @@ class Response implements ResponseInterface {
         return this.message.getBody();
     }
 
-    public withBody(body: Duplex): Response {
+    public withBody(body: Duplex): this {
         const response = this.clone();
         response.message = this.message.withBody(body);
 
@@ -166,7 +166,7 @@ class Response implements ResponseInterface {
         return this.message;
     }
 
-    private clone(): Response {
+    private clone(): this {
         return Object.assign(new Response(), this);
     }
 }

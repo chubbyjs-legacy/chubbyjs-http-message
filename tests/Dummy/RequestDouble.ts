@@ -7,25 +7,25 @@ class RequestDouble implements RequestInterface {
     getRequestTarget(): string {
         throw new Error('Method not implemented.');
     }
-    withRequestTarget(requestTarget: string): RequestInterface {
+    withRequestTarget(requestTarget: string): this {
         throw new Error('Method not implemented.');
     }
     getMethod(): string {
         throw new Error('Method not implemented.');
     }
-    withMethod(name: string): RequestInterface {
+    withMethod(name: string): this {
         throw new Error('Method not implemented.');
     }
     getUri(): UriInterface {
         throw new Error('Method not implemented.');
     }
-    withUri(uri: UriInterface, preserveHost?: boolean): RequestInterface {
+    withUri(uri: UriInterface, preserveHost?: boolean): this {
         throw new Error('Method not implemented.');
     }
     getProtocolVersion(): string {
         throw new Error('Method not implemented.');
     }
-    withProtocolVersion(version: string): MessageInterface {
+    withProtocolVersion(version: string): this {
         throw new Error('Method not implemented.');
     }
     getHeaders(): Map<string, string[]> {
@@ -40,19 +40,19 @@ class RequestDouble implements RequestInterface {
     getHeaderLine(name: string): string {
         throw new Error('Method not implemented.');
     }
-    withHeader(name: string, value: string | string[]): MessageInterface {
+    withHeader(name: string, value: string | string[]): this {
         throw new Error('Method not implemented.');
     }
-    withAddedHeader(name: string, value: string | string[]): MessageInterface {
+    withAddedHeader(name: string, value: string | string[]): this {
         throw new Error('Method not implemented.');
     }
-    withoutHeader(name: string): MessageInterface {
+    withoutHeader(name: string): this {
         throw new Error('Method not implemented.');
     }
     getBody(): Duplex {
         throw new Error('Method not implemented.');
     }
-    withBody(body: Duplex): MessageInterface {
+    withBody(body: Duplex): this {
         throw new Error('Method not implemented.');
     }
 }

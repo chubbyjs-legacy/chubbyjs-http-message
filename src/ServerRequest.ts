@@ -20,7 +20,7 @@ class ServerRequest implements ServerRequestInterface {
         return new Map(this.cookieParams);
     }
 
-    public withCookieParams(cookieParams: Map<string, string>): ServerRequest {
+    public withCookieParams(cookieParams: Map<string, string>): this {
         const serverRequest = this.clone();
         serverRequest.cookieParams = cookieParams;
 
@@ -31,7 +31,7 @@ class ServerRequest implements ServerRequestInterface {
         return new Map(this.queryParams);
     }
 
-    public withQueryParams(queryParams: QueryParams): ServerRequest {
+    public withQueryParams(queryParams: QueryParams): this {
         const serverRequest = this.clone();
         serverRequest.queryParams = queryParams;
 
@@ -42,7 +42,7 @@ class ServerRequest implements ServerRequestInterface {
         return this.parsedBody;
     }
 
-    public withParsedBody(parsedBody: ParsedBody | undefined): ServerRequest {
+    public withParsedBody(parsedBody: ParsedBody | undefined): this {
         const serverRequest = this.clone();
         serverRequest.parsedBody = parsedBody;
 
@@ -57,7 +57,7 @@ class ServerRequest implements ServerRequestInterface {
         return this.attributes.has(name) ? this.attributes.get(name) : defaultValue;
     }
 
-    public withAttribute(name: string, value: unknown): ServerRequest {
+    public withAttribute(name: string, value: unknown): this {
         const attributes = new Map(this.attributes);
         attributes.set(name, value);
 
@@ -67,7 +67,7 @@ class ServerRequest implements ServerRequestInterface {
         return serverRequest;
     }
 
-    public withoutAttribute(name: string): ServerRequest {
+    public withoutAttribute(name: string): this {
         const attributes = new Map(this.attributes);
         attributes.delete(name);
 
@@ -81,7 +81,7 @@ class ServerRequest implements ServerRequestInterface {
         return this.request.getRequestTarget();
     }
 
-    public withRequestTarget(requestTarget: string): ServerRequest {
+    public withRequestTarget(requestTarget: string): this {
         const serverRequest = this.clone();
         serverRequest.request = this.request.withRequestTarget(requestTarget);
 
@@ -92,7 +92,7 @@ class ServerRequest implements ServerRequestInterface {
         return this.request.getMethod();
     }
 
-    public withMethod(name: string): ServerRequest {
+    public withMethod(name: string): this {
         const serverRequest = this.clone();
         serverRequest.request = this.request.withMethod(name);
 
@@ -103,7 +103,7 @@ class ServerRequest implements ServerRequestInterface {
         return this.request.getUri();
     }
 
-    public withUri(uri: UriInterface, preserveHost: boolean = false): ServerRequest {
+    public withUri(uri: UriInterface, preserveHost: boolean = false): this {
         const serverRequest = this.clone();
         serverRequest.request = this.request.withUri(uri, preserveHost);
 
@@ -114,7 +114,7 @@ class ServerRequest implements ServerRequestInterface {
         return this.request.getProtocolVersion();
     }
 
-    public withProtocolVersion(protocolVersion: string): ServerRequest {
+    public withProtocolVersion(protocolVersion: string): this {
         const serverRequest = this.clone();
         serverRequest.request = this.request.withProtocolVersion(protocolVersion) as RequestInterface;
 
@@ -137,21 +137,21 @@ class ServerRequest implements ServerRequestInterface {
         return this.request.getHeaderLine(name);
     }
 
-    public withHeader(name: string, value: Array<string> | string): ServerRequest {
+    public withHeader(name: string, value: Array<string> | string): this {
         const serverRequest = this.clone();
         serverRequest.request = this.request.withHeader(name, value) as RequestInterface;
 
         return serverRequest;
     }
 
-    public withAddedHeader(name: string, value: Array<string> | string): ServerRequest {
+    public withAddedHeader(name: string, value: Array<string> | string): this {
         const serverRequest = this.clone();
         serverRequest.request = this.request.withAddedHeader(name, value) as RequestInterface;
 
         return serverRequest;
     }
 
-    public withoutHeader(name: string): ServerRequest {
+    public withoutHeader(name: string): this {
         const serverRequest = this.clone();
         serverRequest.request = this.request.withoutHeader(name) as RequestInterface;
 
@@ -162,7 +162,7 @@ class ServerRequest implements ServerRequestInterface {
         return this.request.getBody();
     }
 
-    public withBody(body: Duplex): ServerRequest {
+    public withBody(body: Duplex): this {
         const serverRequest = this.clone();
         serverRequest.request = this.request.withBody(body) as RequestInterface;
 
@@ -173,7 +173,7 @@ class ServerRequest implements ServerRequestInterface {
         return this.request;
     }
 
-    private clone(): ServerRequest {
+    private clone(): this {
         return Object.assign(new ServerRequest(), this);
     }
 }

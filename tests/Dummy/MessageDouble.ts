@@ -5,7 +5,7 @@ class MessageDouble implements MessageInterface {
     getProtocolVersion(): string {
         throw new Error('Method not implemented.');
     }
-    withProtocolVersion(version: string): MessageInterface {
+    withProtocolVersion(version: string): this {
         throw new Error('Method not implemented.');
     }
     getHeaders(): Map<string, string[]> {
@@ -20,19 +20,19 @@ class MessageDouble implements MessageInterface {
     getHeaderLine(name: string): string {
         throw new Error('Method not implemented.');
     }
-    withHeader(name: string, value: string | string[]): MessageInterface {
+    withHeader(name: string, value: string | string[]): this {
         throw new Error('Method not implemented.');
     }
-    withAddedHeader(name: string, value: string | string[]): MessageInterface {
+    withAddedHeader(name: string, value: string | string[]): this {
         throw new Error('Method not implemented.');
     }
-    withoutHeader(name: string): MessageInterface {
+    withoutHeader(name: string): this {
         throw new Error('Method not implemented.');
     }
     getBody(): Duplex {
         throw new Error('Method not implemented.');
     }
-    withBody(body: Duplex): MessageInterface {
+    withBody(body: Duplex): this {
         throw new Error('Method not implemented.');
     }
 }

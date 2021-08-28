@@ -1,6 +1,6 @@
 {
   "name": "@chubbyjs/chubbyjs-http-message",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple PSR-7 http message implementation.",
   "keywords": [
     "chubbyjs",
@@ -43,8 +43,8 @@
     "node": ">=12"
   },
   "dependencies": {
-    "@chubbyjs/psr-http-factory": "^1.0.0",
-    "@chubbyjs/psr-http-message": "^1.0.0"
+    "@chubbyjs/psr-http-factory": "^1.0.2",
+    "@chubbyjs/psr-http-message": "^1.0.2"
   },
   "devDependencies": {
     "@chubbyjs/chubbyjs-mock": "^1.0.0",

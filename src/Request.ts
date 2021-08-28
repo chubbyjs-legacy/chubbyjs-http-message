@@ -17,7 +17,7 @@ class Request implements RequestInterface {
         return this.requestTarget;
     }
 
-    public withRequestTarget(requestTarget: string): Request {
+    public withRequestTarget(requestTarget: string): this {
         const request = this.clone();
         request.requestTarget = requestTarget;
 
@@ -28,7 +28,7 @@ class Request implements RequestInterface {
         return this.method;
     }
 
-    public withMethod(name: string): Request {
+    public withMethod(name: string): this {
         const request = this.clone();
         request.method = name;
 
@@ -39,7 +39,7 @@ class Request implements RequestInterface {
         return this.uri;
     }
 
-    public withUri(uri: UriInterface, preserveHost: boolean = false): RequestInterface {
+    public withUri(uri: UriInterface, preserveHost: boolean = false): this {
         const host = uri.getHost();
 
         const request = this.clone();
@@ -64,7 +64,7 @@ class Request implements RequestInterface {
         return this.message.getProtocolVersion();
     }
 
-    public withProtocolVersion(protocolVersion: string): Request {
+    public withProtocolVersion(protocolVersion: string): this {
         const request = this.clone();
         request.message = this.message.withProtocolVersion(protocolVersion);
 
@@ -87,21 +87,21 @@ class Request implements RequestInterface {
         return this.message.getHeaderLine(name);
     }
 
-    public withHeader(name: string, value: Array<string> | string): Request {
+    public withHeader(name: string, value: Array<string> | string): this {
         const request = this.clone();
         request.message = this.message.withHeader(name, value);
 
         return request;
     }
 
-    public withAddedHeader(name: string, value: Array<string> | string): Request {
+    public withAddedHeader(name: string, value: Array<string> | string): this {
         const request = this.clone();
         request.message = this.message.withAddedHeader(name, value);
 
         return request;
     }
 
-    public withoutHeader(name: string): Request {
+    public withoutHeader(name: string): this {
         const request = this.clone();
         request.message = this.message.withoutHeader(name);
 
@@ -112,7 +112,7 @@ class Request implements RequestInterface {
         return this.message.getBody();
     }
 
-    public withBody(body: Duplex): Request {
+    public withBody(body: Duplex): this {
         const request = this.clone();
         request.message = this.message.withBody(body);
 
@@ -123,7 +123,7 @@ class Request implements RequestInterface {
         return this.message;
     }
 
-    private clone(): Request {
+    private clone(): this {
         return Object.assign(new Request(), this);
     }
 

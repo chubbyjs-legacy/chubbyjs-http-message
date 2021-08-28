@@ -26,7 +26,7 @@ class Uri implements UriInterface {
         return this.schema;
     }
 
-    public withScheme(schema: string): Uri {
+    public withScheme(schema: string): this {
         const uri = this.clone();
         uri.schema = schema;
 
@@ -37,7 +37,7 @@ class Uri implements UriInterface {
         return this.userInfo;
     }
 
-    public withUserInfo(user: string, password?: string): Uri {
+    public withUserInfo(user: string, password?: string): this {
         const uri = this.clone();
         uri.userInfo = password !== undefined ? user + ':' + password : user;
 
@@ -48,7 +48,7 @@ class Uri implements UriInterface {
         return this.host;
     }
 
-    public withHost(host: string): Uri {
+    public withHost(host: string): this {
         const uri = this.clone();
         uri.host = host;
 
@@ -64,7 +64,7 @@ class Uri implements UriInterface {
         return isPortNeeded ? this.port : undefined;
     }
 
-    public withPort(port: number | undefined): Uri {
+    public withPort(port: number | undefined): this {
         const uri = this.clone();
         uri.port = port;
 
@@ -75,7 +75,7 @@ class Uri implements UriInterface {
         return this.path;
     }
 
-    public withPath(path: string): Uri {
+    public withPath(path: string): this {
         const uri = this.clone();
         uri.path = path;
 
@@ -86,7 +86,7 @@ class Uri implements UriInterface {
         return this.query;
     }
 
-    public withQuery(query: string): Uri {
+    public withQuery(query: string): this {
         const uri = this.clone();
         uri.query = query;
 
@@ -97,7 +97,7 @@ class Uri implements UriInterface {
         return this.fragment;
     }
 
-    public withFragment(fragment: string): Uri {
+    public withFragment(fragment: string): this {
         const uri = this.clone();
         uri.fragment = fragment;
 
@@ -121,7 +121,7 @@ class Uri implements UriInterface {
         );
     }
 
-    private clone(): Uri {
+    private clone(): this {
         return Object.assign(new Uri(), this);
     }
 }

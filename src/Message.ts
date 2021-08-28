@@ -12,7 +12,7 @@ class Message implements MessageInterface {
         return this.protocolVersion;
     }
 
-    public withProtocolVersion(protocolVersion: string): Message {
+    public withProtocolVersion(protocolVersion: string): this {
         const message = this.clone();
         message.protocolVersion = protocolVersion;
 
@@ -41,7 +41,7 @@ class Message implements MessageInterface {
         return this.getHeader(name).join(', ');
     }
 
-    public withHeader(name: string, value: Array<string> | string): Message {
+    public withHeader(name: string, value: Array<string> | string): this {
         const headerEntries = new Map(this.headerEntries);
         headerEntries.set(name.toLowerCase(), { name, value: Array.isArray(value) ? value : [value] });
 
@@ -51,11 +51,11 @@ class Message implements MessageInterface {
         return message;
     }
 
-    public withAddedHeader(name: string, value: Array<string> | string): Message {
+    public withAddedHeader(name: string, value: Array<string> | string): this {
         return this.withHeader(name, [...this.getHeader(name), ...(Array.isArray(value) ? value : [value])]);
     }
 
-    public withoutHeader(name: string): Message {
+    public withoutHeader(name: string): this {
         const headerEntries = new Map(this.headerEntries);
         headerEntries.delete(name.toLowerCase());
 
@@ -69,14 +69,14 @@ class Message implements MessageInterface {
         return this.body;
     }
 
-    public withBody(body: Duplex): Message {
+    public withBody(body: Duplex): this {
         const message = this.clone();
         message.body = body;
 
         return message;
     }
 
-    private clone(): Message {
+    private clone(): this {
         return Object.assign(new Message(), this);
     }
 }
