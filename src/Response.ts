@@ -77,15 +77,11 @@ class Response implements ResponseInterface {
         [511, 'Network Authentication Required'],
     ]);
 
-    private reasonPhrase: string;
-
     public constructor(
         private statusCode: number = 200,
-        reasonPhrase: string | undefined = undefined,
+        private reasonPhrase: string = Response.statusCodeMap.get(statusCode) ?? '',
         private message: MessageInterface = new Message(),
-    ) {
-        this.reasonPhrase = reasonPhrase ?? Response.statusCodeMap.get(statusCode) ?? '';
-    }
+    ) {}
 
     public getStatusCode(): number {
         return this.statusCode;
