@@ -31,7 +31,7 @@ A simple PSR-7 http message implementation.
 Through [NPM](https://www.npmjs.com) as [@chubbyjs/chubbyjs-http-message][1].
 
 ```sh
-npm i @chubbyjs/chubbyjs-http-message@1.0.1
+npm i @chubbyjs/chubbyjs-http-message@1.0.2
 ```
 
 ## Copyright

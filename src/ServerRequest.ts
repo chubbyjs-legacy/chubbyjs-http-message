@@ -10,7 +10,7 @@ import Request from './Request';
 class ServerRequest implements ServerRequestInterface {
     public constructor(
         private cookieParams: Map<string, string> = new Map(),
-        private queryParams: QueryParams = new Map(),
+        private queryParams: Map<string, QueryParams> = new Map(),
         private parsedBody: ParsedBody | undefined = undefined,
         private attributes: Map<string, unknown> = new Map(),
         private request: RequestInterface = new Request(),
@@ -27,11 +27,11 @@ class ServerRequest implements ServerRequestInterface {
         return serverRequest;
     }
 
-    public getQueryParams(): QueryParams {
+    public getQueryParams(): Map<string, QueryParams> {
         return new Map(this.queryParams);
     }
 
-    public withQueryParams(queryParams: QueryParams): this {
+    public withQueryParams(queryParams: Map<string, QueryParams>): this {
         const serverRequest = this.clone();
         serverRequest.queryParams = queryParams;
 
