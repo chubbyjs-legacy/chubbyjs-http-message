@@ -27,7 +27,7 @@ class ServerRequestFromNode {
                 uri,
                 new Message(
                     req.httpVersion,
-                    this.incomingHeadersToHeaderEntries(req.headers),
+                    this.incomingHeadersToHeaders(req.headers),
                     req.pipe(new PassThrough())
                 )
             )
@@ -54,8 +54,8 @@ class ServerRequestFromNode {
         return path + (query !== '' ? '?' + query : '') + (fragment !== '' ? '#' + fragment : '');
     }
 
-    private incomingHeadersToHeaderEntries(incomingHeaders: { [header: string]: string | string[] | undefined; }) {
-        const headerEntries: Map<string, { name: string; value: Array<string>; }> = new Map();
+    private incomingHeadersToHeaders(incomingHeaders: { [header: string]: string | string[] | undefined; }) {
+        const headers: Map<string, Array<string> | string> = new Map();
 
         Object.entries(incomingHeaders)
             .forEach(([name, value]) => {
@@ -63,15 +63,10 @@ class ServerRequestFromNode {
                     return;
                 }
 
-                if (Array.isArray(value)) {
-                    headerEntries.set(name.toLowerCase(), { name, value });
-                    return;
-                }
-
-                headerEntries.set(name.toLowerCase(), { name, value: value.split(',').map((valuePart) => valuePart.trim()) });
+                headers.set(name, value);
             });
 
-        return headerEntries;
+        return headers;
     }
 }
 
