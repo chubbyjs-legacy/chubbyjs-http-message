@@ -1,6 +1,6 @@
 {
   "name": "@chubbyjs/chubbyjs-http-message",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A simple PSR-7 http message implementation.",
   "keywords": [
     "chubbyjs",
