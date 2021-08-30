@@ -35,7 +35,11 @@ class ServerRequestFromNode {
                 this.uriToRequestTarget(uri),
                 httpRequest.method.toUpperCase(),
                 uri,
-                new Message(httpRequest.httpVersion, this.incomingHeadersToHeaders(httpRequest.headers), httpRequest.pipe(new PassThrough())),
+                new Message(
+                    httpRequest.httpVersion,
+                    this.incomingHeadersToHeaders(httpRequest.headers),
+                    httpRequest.pipe(new PassThrough()),
+                ),
             ),
         );
     }
