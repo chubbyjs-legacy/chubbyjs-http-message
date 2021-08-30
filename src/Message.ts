@@ -2,11 +2,17 @@ import MessageInterface from '@chubbyjs/psr-http-message/dist/MessageInterface';
 import { Duplex, PassThrough } from 'stream';
 
 class Message implements MessageInterface {
+    private headerEntries: Map<string, { name: string; value: Array<string> }> = new Map();
+
     public constructor(
         private protocolVersion: string = '1.1',
-        private headerEntries: Map<string, { name: string; value: Array<string> }> = new Map(),
+        headers: Map<string, Array<string> | string> = new Map(),
         private body: Duplex = new PassThrough(),
-    ) {}
+    ) {
+        headers.forEach((value, name) => {
+            this.headerEntries.set(name.toLowerCase(), { name, value: this.mapHeaderValue(value) });
+        });
+    }
 
     public getProtocolVersion(): string {
         return this.protocolVersion;
@@ -43,7 +49,7 @@ class Message implements MessageInterface {
 
     public withHeader(name: string, value: Array<string> | string): this {
         const headerEntries = new Map(this.headerEntries);
-        headerEntries.set(name.toLowerCase(), { name, value: Array.isArray(value) ? value : [value] });
+        headerEntries.set(name.toLowerCase(), { name, value: this.mapHeaderValue(value) });
 
         const message = this.clone();
         message.headerEntries = headerEntries;
@@ -52,7 +58,7 @@ class Message implements MessageInterface {
     }
 
     public withAddedHeader(name: string, value: Array<string> | string): this {
-        return this.withHeader(name, [...this.getHeader(name), ...(Array.isArray(value) ? value : [value])]);
+        return this.withHeader(name, [...this.getHeader(name), ...this.mapHeaderValue(value)]);
     }
 
     public withoutHeader(name: string): this {
@@ -78,6 +84,10 @@ class Message implements MessageInterface {
 
     private clone(): this {
         return Object.assign(new Message(), this);
+    }
+
+    private mapHeaderValue(value: Array<string> | string): Array<string> {
+        return Array.isArray(value) ? value : value.split(',').map((subValue) => subValue.trim());
     }
 }
 

@@ -31,6 +31,13 @@ describe('Message', () => {
             expect(message.getHeaders().has('key')).toBe(false);
         });
 
+        test('get with construct', () => {
+            const message = new Message(undefined, new Map([['key', 'value']]));
+
+            expect(message.getHeaders().has('key')).toBe(true);
+            expect(message.getHeaders().get('key')).toEqual(['value']);
+        });
+
         test('hasHeader (withHeader)', () => {
             const message = new Message();
 
@@ -45,6 +52,10 @@ describe('Message', () => {
                 new Map([['Content-Type', ['application/json']]]),
             );
             expect(message.withHeader('Content-Type', ['application/json', 'application/xml']).getHeaders()).toEqual(
+                new Map([['Content-Type', ['application/json', 'application/xml']]]),
+            );
+
+            expect(message.withHeader('Content-Type', 'application/json, application/xml').getHeaders()).toEqual(
                 new Map([['Content-Type', ['application/json', 'application/xml']]]),
             );
         });
@@ -93,15 +104,16 @@ describe('Message', () => {
             expect(
                 message
                     .withHeader('Content-Type', 'application/json')
-                    .withAddedHeader('content-Type', 'application/json2')
+                    .withAddedHeader('content-Type', 'application/xml')
+                    .withAddedHeader('content-TYPe', 'application/x+html, text/html')
                     .getHeader('Content-Type'),
-            ).toEqual(['application/json', 'application/json2']);
+            ).toEqual(['application/json', 'application/xml', 'application/x+html', 'text/html']);
             expect(
                 message
                     .withHeader('Content-Type', 'application/json')
-                    .withAddedHeader('content-Type', ['application/json2'])
+                    .withAddedHeader('content-Type', ['application/xml'])
                     .getHeader('content-Type'),
-            ).toEqual(['application/json', 'application/json2']);
+            ).toEqual(['application/json', 'application/xml']);
         });
 
         test('withoutHeader', () => {
