@@ -24,7 +24,7 @@ A simple PSR-7 http message implementation.
 
  * node: 12
  * [@chubbyjs/psr-http-factory][2]: ^1.0.2
- * [@chubbyjs/psr-http-message][3]: ^1.0.2
+ * [@chubbyjs/psr-http-message][3]: ^1.0.3
 
 ## Installation
 
