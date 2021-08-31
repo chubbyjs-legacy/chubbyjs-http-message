@@ -1,11 +1,9 @@
-import { QueryParams } from '@chubbyjs/psr-http-message/dist/ServerRequestInterface';
+import ServerRequestFactoryInterface from '@chubbyjs/psr-http-factory/dist/ServerRequestFactoryInterface';
+import UriFactoryInterface from '@chubbyjs/psr-http-factory/dist/UriFactoryInterface';
+import ServerRequestInterface, { QueryParams } from '@chubbyjs/psr-http-message/dist/ServerRequestInterface';
 import { parse as cookieParser } from 'cookie';
 import { parse as queryParser } from 'qs';
 import { Duplex, PassThrough } from 'stream';
-import Message from './Message';
-import Request from './Request';
-import ServerRequest from './ServerRequest';
-import Uri from './Uri';
 
 type HttpRequest = {
     httpVersion: string;
@@ -19,29 +17,37 @@ type HttpRequest = {
 };
 
 class ServerRequestFromNode {
-    public create(httpRequest: HttpRequest): ServerRequest {
+    public constructor(
+        private serverRequestFactory: ServerRequestFactoryInterface,
+        private uriFactory: UriFactoryInterface,
+    ) {}
+
+    public create(httpRequest: HttpRequest): ServerRequestInterface {
         if (!httpRequest.method || !httpRequest.url) {
             throw new Error('Request is not a server request');
         }
 
-        const uri: Uri = Uri.fromString('http://' + (httpRequest.headers.host ?? 'localhost') + httpRequest.url);
+        const uri = this.uriFactory.createUri('http://' + (httpRequest.headers.host ?? 'localhost') + httpRequest.url);
 
-        return new ServerRequest(
-            httpRequest.headers.cookie ? new Map(Object.entries(cookieParser(httpRequest.headers.cookie))) : new Map(),
-            this.queryParamsFromParsedQuery(queryParser(uri.getQuery())) as Map<string, QueryParams>,
-            undefined,
-            new Map(),
-            new Request(
-                this.uriToRequestTarget(uri),
-                httpRequest.method.toUpperCase(),
-                uri,
-                new Message(
-                    httpRequest.httpVersion,
-                    this.incomingHeadersToHeaders(httpRequest.headers),
-                    httpRequest.pipe(new PassThrough()),
-                ),
-            ),
-        );
+        let serverRequest = this.serverRequestFactory
+            .createServerRequest(httpRequest.method.toUpperCase(), uri)
+            .withCookieParams(
+                httpRequest.headers.cookie
+                    ? new Map(Object.entries(cookieParser(httpRequest.headers.cookie)))
+                    : new Map(),
+            )
+            .withQueryParams(this.queryParamsFromParsedQuery(queryParser(uri.getQuery())) as Map<string, QueryParams>)
+            .withBody(httpRequest.pipe(new PassThrough()));
+
+        Object.entries(httpRequest.headers).forEach(([name, value]) => {
+            if (!value) {
+                return;
+            }
+
+            serverRequest = serverRequest.withHeader(name, value);
+        });
+
+        return serverRequest;
     }
 
     private queryParamsFromParsedQuery(value: any): QueryParams {
@@ -56,30 +62,6 @@ class ServerRequestFromNode {
         }
 
         return value;
-    }
-
-    private uriToRequestTarget(uri: Uri): string {
-        const path = uri.getPath();
-        const query = uri.getQuery();
-        const fragment = uri.getFragment();
-
-        return path + (query !== '' ? '?' + query : '') + (fragment !== '' ? '#' + fragment : '');
-    }
-
-    private incomingHeadersToHeaders(incomingHeaders: {
-        [header: string]: string | string[] | undefined;
-    }): Map<string, Array<string> | string> {
-        const headers: Map<string, Array<string> | string> = new Map();
-
-        Object.entries(incomingHeaders).forEach(([name, value]) => {
-            if (!value) {
-                return;
-            }
-
-            headers.set(name, value);
-        });
-
-        return headers;
     }
 }
 
