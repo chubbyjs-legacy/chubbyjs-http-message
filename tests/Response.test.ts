@@ -1,5 +1,5 @@
 import Call from '@chubbyjs/chubbyjs-mock/dist/Call';
-import MockByCalls from '@chubbyjs/chubbyjs-mock/dist/MockByCalls';
+import MockByCalls, { mockByCallsUsed } from '@chubbyjs/chubbyjs-mock/dist/MockByCalls';
 import MessageInterface from '@chubbyjs/psr-http-message/dist/MessageInterface';
 import { describe, expect, test } from '@jest/globals';
 import { Duplex } from 'stream';
@@ -125,7 +125,7 @@ describe('Response', () => {
             const response = new Response(undefined, undefined, message);
 
             expect(response.getProtocolVersion()).toBe('1.0');
-            expect(message.__mockByCalls.calls.length).toBe(message.__mockByCalls.index);
+            expect(mockByCallsUsed(message)).toBe(true);
         });
 
         test('with', () => {
@@ -140,7 +140,7 @@ describe('Response', () => {
 
             expect(newResponse).toBeInstanceOf(Response);
             expect(newResponse.getMessage()).toEqual(messageClone);
-            expect(message.__mockByCalls.calls.length).toBe(message.__mockByCalls.index);
+            expect(mockByCallsUsed(message)).toBe(true);
         });
     });
 
@@ -153,7 +153,7 @@ describe('Response', () => {
             const response = new Response(undefined, undefined, message);
 
             expect(response.getHeaders()).toEqual(new Map());
-            expect(message.__mockByCalls.calls.length).toBe(message.__mockByCalls.index);
+            expect(mockByCallsUsed(message)).toBe(true);
         });
 
         test('hasHeader', () => {
@@ -164,7 +164,7 @@ describe('Response', () => {
             const response = new Response(undefined, undefined, message);
 
             expect(response.hasHeader('Content-Type')).toEqual(true);
-            expect(message.__mockByCalls.calls.length).toBe(message.__mockByCalls.index);
+            expect(mockByCallsUsed(message)).toBe(true);
         });
 
         test('getHeader', () => {
@@ -175,7 +175,7 @@ describe('Response', () => {
             const response = new Response(undefined, undefined, message);
 
             expect(response.getHeader('Content-Type')).toEqual(['application/json']);
-            expect(message.__mockByCalls.calls.length).toBe(message.__mockByCalls.index);
+            expect(mockByCallsUsed(message)).toBe(true);
         });
 
         test('getHeaderLine', () => {
@@ -186,7 +186,7 @@ describe('Response', () => {
             const response = new Response(undefined, undefined, message);
 
             expect(response.getHeaderLine('Content-Type')).toEqual('application/json');
-            expect(message.__mockByCalls.calls.length).toBe(message.__mockByCalls.index);
+            expect(mockByCallsUsed(message)).toBe(true);
         });
 
         test('withHeader', () => {
@@ -201,7 +201,7 @@ describe('Response', () => {
 
             expect(newResponse).toBeInstanceOf(Response);
             expect(newResponse.getMessage()).toEqual(messageClone);
-            expect(message.__mockByCalls.calls.length).toBe(message.__mockByCalls.index);
+            expect(mockByCallsUsed(message)).toBe(true);
         });
 
         test('withAddedHeader (withHeader)', () => {
@@ -216,7 +216,7 @@ describe('Response', () => {
 
             expect(newResponse).toBeInstanceOf(Response);
             expect(newResponse.getMessage()).toEqual(messageClone);
-            expect(message.__mockByCalls.calls.length).toBe(message.__mockByCalls.index);
+            expect(mockByCallsUsed(message)).toBe(true);
         });
 
         test('withoutHeader', () => {
@@ -231,7 +231,7 @@ describe('Response', () => {
 
             expect(newResponse).toBeInstanceOf(Response);
             expect(newResponse.getMessage()).toEqual(messageClone);
-            expect(message.__mockByCalls.calls.length).toBe(message.__mockByCalls.index);
+            expect(mockByCallsUsed(message)).toBe(true);
         });
     });
 
@@ -246,7 +246,7 @@ describe('Response', () => {
             const response = new Response(undefined, undefined, message);
 
             expect(response.getBody()).toBe(body);
-            expect(message.__mockByCalls.calls.length).toBe(message.__mockByCalls.index);
+            expect(mockByCallsUsed(message)).toBe(true);
         });
 
         test('with', () => {
@@ -263,7 +263,7 @@ describe('Response', () => {
 
             expect(newResponse).toBeInstanceOf(Response);
             expect(newResponse.getMessage()).toEqual(messageClone);
-            expect(message.__mockByCalls.calls.length).toBe(message.__mockByCalls.index);
+            expect(mockByCallsUsed(message)).toBe(true);
         });
     });
 });

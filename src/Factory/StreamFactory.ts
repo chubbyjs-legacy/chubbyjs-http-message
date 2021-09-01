@@ -1,5 +1,5 @@
 import StreamFactoryInterface from '@chubbyjs/psr-http-factory/dist/StreamFactoryInterface';
-import { accessSync, constants, createReadStream } from 'fs';
+import { createReadStream, existsSync } from 'fs';
 import { Duplex, PassThrough, Stream } from 'stream';
 
 class StreamFactory implements StreamFactoryInterface {
@@ -11,10 +11,8 @@ class StreamFactory implements StreamFactoryInterface {
     }
 
     public createStreamFromFile(filename: string): Duplex {
-        try {
-            accessSync(filename, constants.R_OK);
-        } catch (err) {
-            throw new Error(`File with filename: "${filename}" does not exists or is not readable`);
+        if (!existsSync(filename)) {
+            throw new Error(`File with filename: "${filename}" does not exists.`);
         }
 
         return this.createStreamFromResource(createReadStream(filename));

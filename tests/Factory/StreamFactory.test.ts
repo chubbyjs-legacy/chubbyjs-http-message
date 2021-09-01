@@ -49,7 +49,7 @@ describe('StreamFactory', () => {
 
             expect(() => {
                 streamFactory.createStreamFromFile('/some/unknown/file');
-            }).toThrow('File with filename: "/some/unknown/file" does not exists or is not readable');
+            }).toThrow('File with filename: "/some/unknown/file" does not exists.');
         });
     });
 
