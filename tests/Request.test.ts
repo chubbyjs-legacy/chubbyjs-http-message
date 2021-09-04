@@ -1,11 +1,12 @@
 import Call from '@chubbyjs/chubbyjs-mock/dist/Call';
 import MockByCalls, { mockByCallsUsed } from '@chubbyjs/chubbyjs-mock/dist/MockByCalls';
 import MessageInterface from '@chubbyjs/psr-http-message/dist/MessageInterface';
+import { Method } from '@chubbyjs/psr-http-message/dist/RequestInterface';
 import { describe, expect, test } from '@jest/globals';
 import { Duplex } from 'stream';
 import Request from '../src/Request';
 import Uri from '../src/Uri';
-import MessageDouble from './Dummy/MessageDouble';
+import MessageDouble from './Double/MessageDouble';
 
 const mockByCalls = new MockByCalls();
 
@@ -29,14 +30,14 @@ describe('Request', () => {
         test('get', () => {
             const request = new Request();
 
-            expect(request.getMethod()).toBe('GET');
+            expect(request.getMethod()).toBe(Method.GET);
         });
 
         test('with', () => {
             const request = new Request();
 
-            expect(request.withMethod('POST')).not.toBe(request);
-            expect(request.withMethod('POST').getMethod()).toBe('POST');
+            expect(request.withMethod(Method.POST)).not.toBe(request);
+            expect(request.withMethod(Method.POST).getMethod()).toBe(Method.POST);
         });
     });
 

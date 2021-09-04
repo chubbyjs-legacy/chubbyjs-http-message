@@ -1,11 +1,11 @@
 import Call from '@chubbyjs/chubbyjs-mock/dist/Call';
 import MockByCalls, { mockByCallsUsed } from '@chubbyjs/chubbyjs-mock/dist/MockByCalls';
-import RequestInterface from '@chubbyjs/psr-http-message/dist/RequestInterface';
+import RequestInterface, { Method } from '@chubbyjs/psr-http-message/dist/RequestInterface';
 import { describe, expect, test } from '@jest/globals';
 import { Duplex } from 'stream';
 import ServerRequest from '../src/ServerRequest';
 import Uri from '../src/Uri';
-import RequestDouble from './Dummy/RequestDouble';
+import RequestDouble from './Double/RequestDouble';
 
 const mockByCalls = new MockByCalls();
 
@@ -142,24 +142,24 @@ describe('ServerRequest', () => {
     describe('method', () => {
         test('get', () => {
             const request = mockByCalls.create<RequestInterface>(RequestDouble, [
-                Call.create('getMethod').with().willReturn('POST'),
+                Call.create('getMethod').with().willReturn(Method.POST),
             ]);
 
             const serverRequest = new ServerRequest(undefined, undefined, undefined, undefined, request);
 
-            expect(serverRequest.getMethod()).toBe('POST');
+            expect(serverRequest.getMethod()).toBe(Method.POST);
             expect(mockByCallsUsed(request)).toBe(true);
         });
 
         test('with', () => {
             const requestClone = new RequestDouble();
             const request = mockByCalls.create<RequestInterface>(RequestDouble, [
-                Call.create('withMethod').with('POST').willReturn(requestClone),
+                Call.create('withMethod').with(Method.POST).willReturn(requestClone),
             ]);
 
             const serverRequest = new ServerRequest(undefined, undefined, undefined, undefined, request);
 
-            const newServerRequest = serverRequest.withMethod('POST');
+            const newServerRequest = serverRequest.withMethod(Method.POST);
 
             expect(newServerRequest).toBeInstanceOf(ServerRequest);
             expect(newServerRequest.getRequest()).toEqual(requestClone);

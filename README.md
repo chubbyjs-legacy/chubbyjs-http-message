@@ -23,15 +23,15 @@ A simple PSR-7 http message implementation.
 ## Requirements
 
  * node: 12
- * [@chubbyjs/psr-http-factory][2]: ^1.0.2
- * [@chubbyjs/psr-http-message][3]: ^1.1.2
+ * [@chubbyjs/psr-http-factory][2]: ^1.1.0
+ * [@chubbyjs/psr-http-message][3]: ^1.2.1
 
 ## Installation
 
 Through [NPM](https://www.npmjs.com) as [@chubbyjs/chubbyjs-http-message][1].
 
 ```sh
-npm i @chubbyjs/chubbyjs-http-message@1.0.5
+npm i @chubbyjs/chubbyjs-http-message@1.1.0
 ```
 
 ## Copyright

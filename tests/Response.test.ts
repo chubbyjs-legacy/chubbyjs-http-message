@@ -4,7 +4,7 @@ import MessageInterface from '@chubbyjs/psr-http-message/dist/MessageInterface';
 import { describe, expect, test } from '@jest/globals';
 import { Duplex } from 'stream';
 import Response from '../src/Response';
-import MessageDouble from './Dummy/MessageDouble';
+import MessageDouble from './Double/MessageDouble';
 
 const mockByCalls = new MockByCalls();
 

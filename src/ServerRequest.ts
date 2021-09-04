@@ -1,4 +1,4 @@
-import RequestInterface from '@chubbyjs/psr-http-message/dist/RequestInterface';
+import RequestInterface, { Method } from '@chubbyjs/psr-http-message/dist/RequestInterface';
 import ServerRequestInterface, {
     ParsedBody,
     QueryParams,
@@ -92,11 +92,11 @@ class ServerRequest implements ServerRequestInterface {
         return serverRequest;
     }
 
-    public getMethod(): string {
+    public getMethod(): Method {
         return this.request.getMethod();
     }
 
-    public withMethod(name: string): this {
+    public withMethod(name: Method): this {
         const serverRequest = this.clone();
         serverRequest.request = this.request.withMethod(name);
 

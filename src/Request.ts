@@ -1,5 +1,5 @@
 import MessageInterface from '@chubbyjs/psr-http-message/dist/MessageInterface';
-import RequestInterface from '@chubbyjs/psr-http-message/dist/RequestInterface';
+import RequestInterface, { Method } from '@chubbyjs/psr-http-message/dist/RequestInterface';
 import UriInterface from '@chubbyjs/psr-http-message/dist/UriInterface';
 import { Duplex } from 'stream';
 import Message from './Message';
@@ -8,7 +8,7 @@ import Uri from './Uri';
 class Request implements RequestInterface {
     public constructor(
         private requestTarget: string = '',
-        private method: string = 'GET',
+        private method: Method = Method.GET,
         private uri: UriInterface = new Uri(),
         private message: MessageInterface = new Message(),
     ) {}
@@ -24,11 +24,11 @@ class Request implements RequestInterface {
         return request;
     }
 
-    public getMethod(): string {
+    public getMethod(): Method {
         return this.method;
     }
 
-    public withMethod(name: string): this {
+    public withMethod(name: Method): this {
         const request = this.clone();
         request.method = name;
 

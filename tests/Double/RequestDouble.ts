@@ -1,5 +1,4 @@
-import MessageInterface from '@chubbyjs/psr-http-message/dist/MessageInterface';
-import RequestInterface from '@chubbyjs/psr-http-message/dist/RequestInterface';
+import RequestInterface, { Method } from '@chubbyjs/psr-http-message/dist/RequestInterface';
 import UriInterface from '@chubbyjs/psr-http-message/dist/UriInterface';
 import { Duplex } from 'stream';
 
@@ -10,10 +9,10 @@ class RequestDouble implements RequestInterface {
     withRequestTarget(requestTarget: string): this {
         throw new Error('Method not implemented.');
     }
-    getMethod(): string {
+    getMethod(): Method {
         throw new Error('Method not implemented.');
     }
-    withMethod(name: string): this {
+    withMethod(name: Method): this {
         throw new Error('Method not implemented.');
     }
     getUri(): UriInterface {

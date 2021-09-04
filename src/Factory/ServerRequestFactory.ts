@@ -1,4 +1,5 @@
 import ServerRequestFactoryInterface from '@chubbyjs/psr-http-factory/dist/ServerRequestFactoryInterface';
+import { Method } from '@chubbyjs/psr-http-message/dist/RequestInterface';
 import ServerRequestInterface from '@chubbyjs/psr-http-message/dist/ServerRequestInterface';
 import UriInterface from '@chubbyjs/psr-http-message/dist/UriInterface';
 import Request from '../Request';
@@ -6,7 +7,7 @@ import ServerRequest from '../ServerRequest';
 import Uri from '../Uri';
 
 class ServerRequestFactory implements ServerRequestFactoryInterface {
-    public createServerRequest(method: string, uri: string | UriInterface): ServerRequestInterface {
+    public createServerRequest(method: Method, uri: string | UriInterface): ServerRequestInterface {
         return new ServerRequest(
             undefined,
             undefined,
