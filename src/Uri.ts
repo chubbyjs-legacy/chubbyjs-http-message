@@ -5,7 +5,7 @@ class Uri implements UriInterface {
     private userInfo: string = '';
     private host: string = 'localhost';
     private port: number | undefined = undefined;
-    private path: string = '';
+    private path: string = '/';
     private query: string = '';
     private fragment: string = '';
 
@@ -17,7 +17,7 @@ class Uri implements UriInterface {
             .withUserInfo(url.username, url.password !== '' ? url.password : undefined)
             .withHost(url.hostname)
             .withPort(url.port ? parseInt(url.port) : undefined)
-            .withPath(url.pathname !== '/' ? url.pathname : '')
+            .withPath(url.pathname)
             .withQuery(url.search ? url.search.substr(1) : '')
             .withFragment(url.hash ? url.hash.substr(1) : '');
     }

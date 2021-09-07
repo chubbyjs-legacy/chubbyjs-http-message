@@ -4,9 +4,9 @@ import Uri from '../src/Uri';
 describe('Uri', () => {
     test('fromString', () => {
         const uris = [
-            'https://example.com',
-            'https://user:password@example.com',
-            'https://user:password@example.com:8443',
+            'https://example.com/',
+            'https://user:password@example.com/',
+            'https://user:password@example.com:8443/',
             'https://user:password@example.com:8443/path',
             'https://user:password@example.com:8443/path?key=value',
             'https://user:password@example.com:8443/path?key=value#title',
@@ -87,14 +87,14 @@ describe('Uri', () => {
         test('get', () => {
             const uri = new Uri();
 
-            expect(uri.getPath()).toBe('');
+            expect(uri.getPath()).toBe('/');
         });
 
         test('with', () => {
             const uri = new Uri();
 
-            expect(uri.withPath('/')).not.toBe(uri);
-            expect(uri.withPath('/').getPath()).toBe('/');
+            expect(uri.withPath('/path')).not.toBe(uri);
+            expect(uri.withPath('/path').getPath()).toBe('/path');
         });
     });
 
@@ -148,7 +148,7 @@ describe('Uri', () => {
 
     describe('toString', () => {
         test('default', () => {
-            expect('' + new Uri()).toBe('http://localhost');
+            expect('' + new Uri()).toBe('http://localhost/');
         });
 
         test('overrides', () => {
